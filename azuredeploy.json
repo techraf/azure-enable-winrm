@@ -1,0 +1,47 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vmName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the VM"
+      }
+    },
+    "fileUris": {
+      "type": "string",
+      "defaultValue": "https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1",
+      "metadata": {
+        "description": "The uri list of files. Split by a space."
+      }
+    },
+    "commandToExecute": {
+      "type": "string",
+      "defaultValue": "powershell.exe -ExecutionPolicy Unrestricted -File ConfigureRemotingForAnsible.ps1",
+      "metadata": {
+        "description": "The command to execute."
+      }
+    }
+  },
+  "variables": {
+    "vmName": "[parameters('vmName')]"
+  },
+  "resources": [
+    {
+      "comments": "Deploy CustomScriptExtension",
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('vmName'),'/MyCustomScriptExtension')]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "publisher": "Microsoft.Compute",
+        "type": "CustomScriptExtension",
+        "typeHandlerVersion": "1.8",
+        "settings": {
+          "fileUris": "[split(parameters('fileUris'), ' ')]",
+          "commandToExecute": "[parameters('commandToExecute')]"
+        }
+      }
+    }
+  ]
+}
