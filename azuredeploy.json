@@ -9,10 +9,12 @@
       }
     },
     "fileUris": {
-      "type": "string",
-      "defaultValue": "https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1",
+      "type": "array",
+      "defaultValue": [
+        "https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1"
+      ],
       "metadata": {
-        "description": "The uri list of files. Split by a space."
+        "description": "The array with uri list of files."
       }
     },
     "commandToExecute": {
@@ -38,7 +40,7 @@
         "type": "CustomScriptExtension",
         "typeHandlerVersion": "1.8",
         "settings": {
-          "fileUris": "[split(parameters('fileUris'), ' ')]",
+          "fileUris": "[parameters('fileUris')]",
           "commandToExecute": "[parameters('commandToExecute')]"
         }
       }
