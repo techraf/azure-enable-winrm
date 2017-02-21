@@ -5,28 +5,16 @@
     "vmName": {
       "type": "string",
       "metadata": {
-        "description": "Name of the VM"
-      }
-    },
-    "fileUris": {
-      "type": "array",
-      "defaultValue": [
-        "https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1"
-      ],
-      "metadata": {
-        "description": "The array with uri list of files."
-      }
-    },
-    "commandToExecute": {
-      "type": "string",
-      "defaultValue": "powershell.exe -ExecutionPolicy Unrestricted -File ConfigureRemotingForAnsible.ps1",
-      "metadata": {
-        "description": "The command to execute."
+        "description": "Name of the VM."
       }
     }
   },
   "variables": {
-    "vmName": "[parameters('vmName')]"
+    "vmName": "[parameters('vmName')]",
+    "fileUris": [
+      "https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1"
+    ],
+    "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -File ConfigureRemotingForAnsible.ps1"
   },
   "resources": [
     {
@@ -40,8 +28,8 @@
         "type": "CustomScriptExtension",
         "typeHandlerVersion": "1.8",
         "settings": {
-          "fileUris": "[parameters('fileUris')]",
-          "commandToExecute": "[parameters('commandToExecute')]"
+          "fileUris": "[variables('fileUris')]",
+          "commandToExecute": "[variables('commandToExecute')]"
         }
       }
     }
